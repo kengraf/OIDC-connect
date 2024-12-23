@@ -1,0 +1,41 @@
+{
+  "name": "OIDC-connect",
+  "version": "1.0.0",
+  "description": "Example OIDC connect using Google as the provider",
+  "main": "views/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+  },
+  "engines": {
+    "node": ">=23.5.0",
+    "npm": ">=11.0.0"
+  },
+  "author": "kengraf",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "passport-openidconnect": "^0.1.2",
+    "passport": "^0.7.0",
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kengraf/OIDC-connect.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kengraf/OIDC-connect/issues"
+  },
+  "homepage": "https://github.com/kengraf/OIDC-connect#readme.md"
+}
+
+
+express
+express-session 
+ejs
+passport
+passport-openidconnect
+dotenv
