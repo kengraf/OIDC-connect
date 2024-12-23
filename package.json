@@ -29,13 +29,5 @@
   "bugs": {
     "url": "https://github.com/kengraf/OIDC-connect/issues"
   },
-  "homepage": "https://github.com/kengraf/OIDC-connect#readme.md"
+  "homepage": "https://github.com/kengraf/OIDC-connect#README.md"
 }
-
-
-express
-express-session 
-ejs
-passport
-passport-openidconnect
-dotenv
