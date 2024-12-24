@@ -60,9 +60,7 @@ app.get('/login', passport.authenticate('openidconnect'));
 
 app.get(
   '/callback',  (req, res, next) => {
-  console.log('Callback query parameters:', req.query);
-  next();
-}, passport.authenticate('openidconnect', (err, user, info) => {
+    passport.authenticate('openidconnect', (err, user, info) => {
       if (err) {
         console.error('OIDC Authentication Error:', err);
         return res.send(`Authentication failed: ${err.message || ' error'}`);
