@@ -22,7 +22,9 @@ app.get('/', (req, res) => {
   res.render('index', { user: req.user });
 });
 
-app.get('/login', passport.authenticate('openidconnect'));
+app.get('/login', (req, res) => {
+  res.render('login', { user: req.user });
+});
 
 app.post('/callback',  (req, res ) => {
   console.log('post:', req);
