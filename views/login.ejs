@@ -34,7 +34,14 @@
   </style>
 </head>
 <body>
-  <div class="login-container">
+<!-- https://developers.google.com/identity/gsi/web/guides/personalized-button 
+https://github.com/auth0/express-jwt
+https://github.com/auth0/jwt-decode
+-->
+
+<script src="https://accounts.google.com/gsi/client" async></script>
+
+<div class="login-container">
     <h1>Login</h1>
     <p>Please log in using your Google account.</p>
     <form action="/login" method="get">
