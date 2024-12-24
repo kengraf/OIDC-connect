@@ -54,14 +54,23 @@ app.get('/', (req, res) => {
 app.get('/login', passport.authenticate('openidconnect'));
 
 app.get(
-  '/callback',
-  passport.authenticate('openidconnect', {
-    failureRedirect: '/b',
+  '/callback',  (req, res, next) => {
+  console.log('Callback query parameters:', req.query);
+  next();
+}, passport.authenticate('openidconnect', {
+    failureRedirect: '/error',
+    failureMessage: true,
   }),
   (req, res) => {
-    res.redirect('/a');
+    res.redirect('/');
   }
 );
+
+app.get('/error', (req, res) => {
+  const errorMessage = req.session.messages || 'Unknown error';
+  console.error('Authentication failed:', errorMessage);
+  res.send(`Authentication failed: ${errorMessage}`);
+});
 
 app.get('/logout', (req, res) => {
   req.logout(() => {
