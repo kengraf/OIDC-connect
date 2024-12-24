@@ -18,8 +18,13 @@ passport.use(
       clientID: process.env.OIDC_CLIENT_ID,
       clientSecret: process.env.OIDC_CLIENT_SECRET,
       callbackURL: process.env.OIDC_CALLBACK_URL,
+      scope: ['openid', 'profile', 'email'],
     },
     (issuer, sub, profile, accessToken, refreshToken, done) => {
+       if (!accessToken) {
+        console.error('Access token is missing');
+        return done(new Error('Failed to retrieve access token'));
+      }
       return done(null, profile);
     }
   )
