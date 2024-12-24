@@ -18,7 +18,7 @@ passport.use(
       clientID: process.env.OIDC_CLIENT_ID,
       clientSecret: process.env.OIDC_CLIENT_SECRET,
       callbackURL: process.env.OIDC_CALLBACK_URL,
-      scope: ['openid', 'profile', 'email'],
+      scope: ['openid'],
     },
     (issuer, sub, profile, accessToken, refreshToken, done) => {
        if (!accessToken) {
