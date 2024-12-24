@@ -62,12 +62,23 @@ app.get(
   '/callback',  (req, res, next) => {
   console.log('Callback query parameters:', req.query);
   next();
-}, passport.authenticate('openidconnect', {
-    failureRedirect: '/error',
-    failureMessage: true,
-  }),
-  (req, res) => {
-    res.redirect('/');
+}, passport.authenticate('openidconnect', (err, user, info) => {
+      if (err) {
+        console.error('OIDC Authentication Error:', err);
+        return res.send(`Authentication failed: ${err.message || ' error'}`);
+      }
+      if (!user) {
+        console.error('OIDC User Info Error:', info);
+        return res.send(`Authentication failed: ${info || 'Unknown user'}`);
+      }
+      req.logIn(user, (loginErr) => {
+        if (loginErr) {
+          console.error('Login Error:', loginErr);
+          return res.send(`Authentication failed: ${loginErr.message}`);
+        }
+        res.redirect('/');
+      });
+    })(req, res, next);
   }
 );
 
