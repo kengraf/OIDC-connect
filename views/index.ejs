@@ -11,16 +11,7 @@
     <p>Hello, <%= user.displayName || user.name || "User" %>!</p>
     <a href="/logout">Logout</a>
   <% } else { %>
-  <div class="login-container">
-    <h1>Login</h1>
-    <p>Please log in using your Google account.</p>
-    <form action="/login" method="get">
-      <button class="google-btn" type="submit">
-        <img src="https://developers.google.com/static/identity/images/btn_google_signin_light_normal_web.png" alt="Google Logo">
-      </button>
-    </form>
-  </div>
-
+    <a href="/login">Login</a>
   <% } %>
 </body>
 </html>
