@@ -56,10 +56,10 @@ app.get('/login', passport.authenticate('openidconnect'));
 app.get(
   '/callback',
   passport.authenticate('openidconnect', {
-    failureRedirect: '/',
+    failureRedirect: '/b',
   }),
   (req, res) => {
-    res.redirect('/');
+    res.redirect('/a');
   }
 );
 
