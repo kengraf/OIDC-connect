@@ -12,9 +12,9 @@ passport.use(
   new Strategy(
     {
       issuer: process.env.OIDC_ISSUER,
-      authorizationURL: `${process.env.OIDC_ISSUER}/authorize`,
-      tokenURL: `${process.env.OIDC_ISSUER}/token`,
-      userInfoURL: `${process.env.OIDC_ISSUER}/userinfo`,
+      authorizationURL: process.env.OIDC_AUTHORIZATION_URL,
+      tokenURL: process.env.OIDC_TOKEN_URL,
+      userInfoURL: process.env.OIDC_USER_INFO_URL,
       clientID: process.env.OIDC_CLIENT_ID,
       clientSecret: process.env.OIDC_CLIENT_SECRET,
       callbackURL: process.env.OIDC_CALLBACK_URL,
