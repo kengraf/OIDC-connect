@@ -69,6 +69,11 @@ https://github.com/auth0/jwt-decode
 </div>
 
 <script>
+  function decodeJwtResponse(cred) {
+    let r = {"sub":"", "name":"", "given_name":"" };
+    return r;
+  }
+
   function handleCredentialResponse(response) {
      // decodeJwtResponse() is a custom function defined by you
      // to decode the credential response.
