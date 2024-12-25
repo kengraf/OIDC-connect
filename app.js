@@ -30,6 +30,13 @@ app.post('/callback',  (req, res ) => {
   console.log('post:', req);
 });
 
+// Protected route
+app.get('/protected', validateToken, (req, res) => {
+  res.json({
+    message: 'Access granted to protected route',
+    user: req.user, // Decoded JWT payload
+  });
+});
 app.get('/error', (req, res) => {
   const errorMessage = req.session.messages || 'Unknown error';
   console.error('Authentication failed:', errorMessage);
