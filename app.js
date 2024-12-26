@@ -5,6 +5,34 @@ require('dotenv').config();
 
 const app = express();
 
+function decodeJwtResponse(token, secret="") {
+    try {
+        // Verify the token using the secret key
+        const decoded = jwt.verify(token, secret);
+        
+        console.log("Token is valid. Contents:");
+        console.log(decoded);
+        
+        return decoded; // Return decoded content if needed
+    } catch (error) {
+        console.error("Invalid token:", error.message);
+        return null;
+    }
+}
+
+function handleCredentialResponse(response) {
+   // decodeJwtResponse() is a custom function defined by you
+   // to decode the credential response.
+   const responsePayload = decodeJwtResponse(response.credential);
+
+   console.log("ID: " + responsePayload.sub);
+   console.log('Full Name: ' + responsePayload.name);
+   console.log('Given Name: ' + responsePayload.given_name);
+   console.log('Family Name: ' + responsePayload.family_name);
+   console.log("Image URL: " + responsePayload.picture);
+   console.log("Email: " + responsePayload.email);
+}
+
 function validateToken() { return true; }
 // Middleware
 app.set('view engine', 'ejs');
