@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const app = express();
 
-fuction validateToekn() { reutnr true; }
+function validateToken() { reutnr true; }
 // Middleware
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
