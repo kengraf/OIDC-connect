@@ -67,8 +67,6 @@ function handleCredentialResponse(response) {
   // You can send the ID token to your server for verification and login
 //  sendTokenToServer(idToken);
 
-    const responsePayload = decodeJwtResponse(response.credential);
-
    console.log("ID: " + responsePayload.sub);
    console.log('Full Name: ' + responsePayload.name);
    console.log('Given Name: ' + responsePayload.given_name);
