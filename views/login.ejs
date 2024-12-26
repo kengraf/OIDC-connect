@@ -50,54 +50,23 @@ https://github.com/auth0/jwt-decode
         Login with Google
       </button>
     </form>
-<div id="g_id_onload"
-     data-client_id="958115105182-0rvbal5tufba8jsubammhgq3ee149vdu.apps.googleusercontent.com"
-     data-context="signin"
-     data-ux_mode="popup"
-     data-callback="handleCredentialResponse"
-     data-nonce=""
-     data-auto_prompt="false">
+    <div id="g_id_onload"
+         data-client_id="958115105182-0rvbal5tufba8jsubammhgq3ee149vdu.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-callback="handleCredentialResponse"
+         data-nonce=""
+         data-auto_prompt="false">
+    </div>
+    
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="rectangular"
+         data-theme="outline"
+         data-text="signin_with"
+         data-size="large"
+         data-logo_alignment="left">
+    </div>
 </div>
-
-<div class="g_id_signin"
-     data-type="standard"
-     data-shape="rectangular"
-     data-theme="outline"
-     data-text="signin_with"
-     data-size="large"
-     data-logo_alignment="left">
-</div>
-
-<script>
-function decodeJwtResponse(token, secret="") {
-    try {
-        // Verify the token using the secret key
-        const decoded = jwt.verify(token, secret);
-        
-        console.log("Token is valid. Contents:");
-        console.log(decoded);
-        
-        return decoded; // Return decoded content if needed
-    } catch (error) {
-        console.error("Invalid token:", error.message);
-        return null;
-    }
-}
-  }
-
-  function handleCredentialResponse(response) {
-     // decodeJwtResponse() is a custom function defined by you
-     // to decode the credential response.
-     const responsePayload = decodeJwtResponse(response.credential);
-
-     console.log("ID: " + responsePayload.sub);
-     console.log('Full Name: ' + responsePayload.name);
-     console.log('Given Name: ' + responsePayload.given_name);
-     console.log('Family Name: ' + responsePayload.family_name);
-     console.log("Image URL: " + responsePayload.picture);
-     console.log("Email: " + responsePayload.email);
-  }
-</script>
-  </div>
 </body>
 </html>
