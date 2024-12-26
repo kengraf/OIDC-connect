@@ -28,7 +28,8 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/callback',  (req, res ) => {
-  console.log('post:', req);
+  console.log('callback post');
+  res.send("callback responce");
 });
 
 // Protected route
