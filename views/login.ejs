@@ -69,9 +69,20 @@ https://github.com/auth0/jwt-decode
 </div>
 
 <script>
-  function decodeJwtResponse(cred) {
-    let r = {"sub":"", "name":"", "given_name":"" };
-    return r;
+function decodeJwtResponse(token, secret="") {
+    try {
+        // Verify the token using the secret key
+        const decoded = jwt.verify(token, secret);
+        
+        console.log("Token is valid. Contents:");
+        console.log(decoded);
+        
+        return decoded; // Return decoded content if needed
+    } catch (error) {
+        console.error("Invalid token:", error.message);
+        return null;
+    }
+}
   }
 
   function handleCredentialResponse(response) {
