@@ -41,24 +41,8 @@ https://github.com/auth0/jwt-decode
 
 <script src="https://accounts.google.com/gsi/client" async></script>
 <script>
-function decodeJwtResponse(token, secret="") {
-    try {
-        // Verify the token using the secret key
-        const decoded = jwt.verify(token, secret);
-        
-        console.log("Token is valid. Contents:");
-        console.log(decoded);
-        
-        return decoded; // Return decoded content if needed
-    } catch (error) {
-        console.error("Invalid token:", error.message);
-        return null;
-    }
-}
-
 function handleCredentialResponse(response) {
   const idToken = response.credential;
-  console.log('Encoded JWT ID token:', idToken);
 
   // Decode and verify the token (optional)
   const responsePayload = parseJwt(idToken);
@@ -66,13 +50,6 @@ function handleCredentialResponse(response) {
 
   // You can send the ID token to your server for verification and login
 //  sendTokenToServer(idToken);
-
-   console.log("ID: " + responsePayload.sub);
-   console.log('Full Name: ' + responsePayload.name);
-   console.log('Given Name: ' + responsePayload.given_name);
-   console.log('Family Name: ' + responsePayload.family_name);
-   console.log("Image URL: " + responsePayload.picture);
-   console.log("Email: " + responsePayload.email);
 }
 
 
