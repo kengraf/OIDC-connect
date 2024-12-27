@@ -6,6 +6,8 @@ const { OAuth2Client } = require('google-auth-library');
 
 const CLIENT_ID = process.env.OIDC_CLIENT_ID;
 const client = new OAuth2Client(CLIENT_ID);
+let session_secret = 'your-secret-key';
+let session_email = '';
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -13,7 +15,7 @@ app.use(express.json());
 
 app.use(
   session({
-    secret: 'your-secret-key', // Replace with a strong secret key
+    secret: session_secret, // Replace with a strong secret key
     resave: false,            // Avoid resaving unchanged sessions
     saveUninitialized: false, // Don't save uninitialized sessions
     cookie: {
@@ -35,7 +37,6 @@ app.get('/login', (req, res) => {
 
 app.post('/verify-token', async (req, res) => {
   const { idToken } = req.body;
-console.log( req.body );
   
   try {
     const ticket = await client.verifyIdToken({
@@ -48,6 +49,8 @@ console.log( req.body );
 
     // After verification, establish a session or issue a secure token
     req.session.user = userId; // Example for session-based apps
+    session_secret = userId;
+    session_user = payload['email'];
     
     res.json({ success: true });
   } catch (error) {
@@ -74,8 +77,18 @@ function verifyToken(req, res, next) {
     next();
   });
 }
+function validateSession(req, res, next) {
+    console.log('Session:', req.session);
+  if (req.session && req.session.user) {
+    console.log('Session validated:', req.session.user);
+    next(); // User is authenticated; proceed to the next middleware or route
+  } else {
+    res.status(401).json({ message: 'Unauthorized: Please log in' });
+  }
+}
 
-app.get('/protected', verifyToken, (req, res) => {
+
+app.get('/protected', validateSession, (req, res) => {
   res.json({ success: true, message: 'Welcome to the protected page!', user: req.user });
 });
 
