@@ -50,7 +50,11 @@ app.post('/verify-token', async (req, res) => {
     req.session.user = { username: userId }; // Example for session-based apps
     session_secret = userId;
     session_user = payload['email'];
-    
+    req.session.save((err) => {               // Ensure session is saved
+      if (err) {
+        return res.status(500).json({ message: 'Session save failed' });
+      }
+    });    
     res.json({ success: true });
   } catch (error) {
     console.error('Error verifying token:', error);
