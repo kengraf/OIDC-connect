@@ -3,15 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
+  <title>Login</title>
+  <style>
+    .login-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+    .google-btn {
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .google-btn img {
+      height: 20px;
+    }
+    .google-btn:hover {
+      background-color: #357ae8;
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome to OIDC Example</h1>
-  <% if (user) { %>
-    <p>Hello, <%= user.displayName || user.name || "User" %>!</p>
-    <a href="/logout">Logout</a>
-  <% } else { %>
-    <a href="/login">Login</a>
-  <% } %>
+<!-- https://developers.google.com/identity/gsi/web/guides/personalized-button 
+https://github.com/auth0/express-jwt
+https://github.com/auth0/jwt-decode
+-->
+
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script>
+function handleCredentialResponse(response) {
+  const idToken = response.credential;
+
+  // Decode and verify the token (optional)
+  const responsePayload = parseJwt(idToken);
+  console.log('Decoded payload:', responsePayload);
+
+  // You can send the ID token to your server for verification and login
+//  sendTokenToServer(idToken);
+}
+
+
+// Function to decode the JWT (optional, for client-side inspection)
+function parseJwt(token) {
+  const base64Url = token.split('.')[1]; // Get the payload part
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  return JSON.parse(decodeURIComponent(atob(base64).split('').map(function(c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join('')));
+}
+
+// Example function to send the token to your server
+function sendTokenToServer(token) {
+  fetch('/api/auth/google', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ idToken: token }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Server response:', data);
+    })
+    .catch((error) => {
+      console.error('Error sending token to server:', error);
+    });
+}
+</script>
+
+<div class="login-container">
+    <h1>Login</h1>
+    <p>Please log in using your Google account.</p>
+    <form action="/login" method="get">
+      <button class="google-btn" type="submit">
+        <img src="https://developers.google.com/static/identity/images/btn_google_signin_light_normal_web.png" alt="Google Logo">
+        Login with Google
+      </button>
+    </form>
+    <div id="g_id_onload"
+         data-client_id="958115105182-0rvbal5tufba8jsubammhgq3ee149vdu.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-callback="handleCredentialResponse"
+         data-nonce=""
+         data-auto_prompt="false">
+    </div>
+        
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="rectangular"
+         data-theme="outline"
+         data-text="signin_with"
+         data-size="large"
+         data-logo_alignment="left">
+    </div>
+
+</div>
 </body>
 </html>
