@@ -39,19 +39,22 @@
 <script>
   function handleCredentialResponse(response) {
     const idToken = response.credential;
-    const cookieValue = 'auth_token=your' + idToken + '; Path=/; HttpOnly;';
 
     // Send the token to your backend via POST
     fetch('/verify-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Cookie': cookieValue, 
       },
       body: JSON.stringify({ idToken }),
     })
       .then((res) => {
         if (res.ok) {
+          res.cookie('auth_token', idToken, {
+            httpOnly: true,
+            secure: false,
+            maxAge: 3600000,
+            sameSite: 'Strict',
           return res.json();
         }
         throw new Error('Token verification failed');
