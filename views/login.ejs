@@ -50,7 +50,7 @@
     })
       .then((res) => {
         if (res.ok) {
-          const cookie = `auth_token=${idTYoken}; httpOnly: true; secure: false; maxAge: 3600000; sameSite: 'Strict'`;
+          const cookie = `auth_token=${idToken}; httpOnly: true; secure: false; maxAge: 3600000; sameSite: 'Strict'`;
           res.headers.append("Set-Cookie", cookie );
           return res.json();
         }
