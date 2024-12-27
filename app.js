@@ -46,7 +46,8 @@ app.post('/verify-token', async (req, res) => {
     const userId = payload['sub']; // Use this user ID for your app's session
 
     // After verification, establish a session or issue a secure token
-    res.session.user = userId; // Example for session-based apps
+    req.session.user = userId; // Example for session-based apps
+console.log( req.session );
 console.log( res.session );
     
     res.json({ success: true });
