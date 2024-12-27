@@ -54,19 +54,26 @@ app.post('/verify-token', async (req, res) => {
   }
 });
 
-app.post('/callback',  (req, res ) => {
-  console.log('callback post');
-  res.send("callback responce");
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization?.split(' ')[1]; // Extract token from "Bearer <token>"
+
+  if (!token) {
+    return res.status(401).json({ success: false, message: 'Token is required' });
+  }
+
+  jwt.verify(token, 'your-secret-key', (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ success: false, message: 'Invalid or expired token' });
+    }
+    req.user = decoded; // Attach decoded token data to the request
+    next();
+  });
+}
+
+app.get('/protected', verifyToken, (req, res) => {
+  res.json({ success: true, message: 'Welcome to the protected page!', user: req.user });
 });
 
-function validateToken() { return true; };
-// Protected route
-app.get('/protected', validateToken, (req, res) => {
-  res.json({
-    message: 'Access granted to protected route',
-    user: req.user, // Decoded JWT payload
-  });
-});
 app.get('/error', (req, res) => {
   const errorMessage = req.session.messages || 'Unknown error';
   console.error('Authentication failed:', errorMessage);
