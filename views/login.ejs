@@ -39,26 +39,25 @@
 <script>
   function handleCredentialResponse(response) {
     const idToken = response.credential;
+    const cookieValue = 'auth_token=your' + idToken + '; Path=/; HttpOnly;';
 
     // Send the token to your backend via POST
     fetch('/verify-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Cookie': cookieValue, 
       },
       body: JSON.stringify({ idToken }),
     })
       .then((res) => {
         if (res.ok) {
-          res.cookie('authentication', idToken, { maxAge: 36000000, httpOnly: true });
-console.log("cookie set");
           return res.json();
         }
         throw new Error('Token verification failed');
       })
       .then((data) => {
         // Redirect to the protected page
-console.log("/protected redirect called");
         window.location.href = '/protected';
       })
       .catch((error) => {
