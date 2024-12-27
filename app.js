@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 require('dotenv').config();
-const OAuth2Client = require('google-auth-library');
+const { OAuth2Client } = require('google-auth-library');
 
 const CLIENT_ID = process.env.OIDC_CLIENT_ID;
 const client = new OAuth2Client(CLIENT_ID);
