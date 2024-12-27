@@ -46,7 +46,7 @@ app.post('/callback',  (req, res ) => {
   res.send("callback responce");
 });
 
-function validateToken() { return true; }
+function validateToken() { return true; };
 // Protected route
 app.get('/protected', validateToken, (req, res) => {
   res.json({
