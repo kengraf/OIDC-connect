@@ -11,6 +11,18 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use(express.json());
 
+app.use(
+  session({
+    secret: 'your-secret-key', // Replace with a strong secret key
+    resave: false,            // Avoid resaving unchanged sessions
+    saveUninitialized: false, // Don't save uninitialized sessions
+    cookie: {
+      secure: false,          // Set `true` if using HTTPS
+      httpOnly: true,         // Prevent client-side access to cookies
+      maxAge: 3600000,        // Session expiration time in milliseconds (1 hour)
+    },
+  })
+);
 
 // Routes
 app.get('/', (req, res) => {
@@ -23,7 +35,6 @@ app.get('/login', (req, res) => {
 
 app.post('/verify-token', async (req, res) => {
   const { idToken } = req.body;
-  console.log( idToken );
   
   try {
     const ticket = await client.verifyIdToken({
