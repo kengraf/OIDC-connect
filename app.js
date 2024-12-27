@@ -46,7 +46,8 @@ app.post('/verify-token', async (req, res) => {
 
     // After verification, establish a session or issue a secure token
     req.session.user = userId; // Example for session-based apps
-
+console.log( req.session );
+    
     res.json({ success: true });
   } catch (error) {
     console.error('Error verifying token:', error);
@@ -55,8 +56,8 @@ app.post('/verify-token', async (req, res) => {
 });
 
 function verifyToken(req, res, next) {
-console.log(req.headers);
-  const token = req.headers;
+  console.log( req.session );
+  const token = req.session.user;
   console.log( token);
   
   if (!token) {
