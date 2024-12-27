@@ -4,6 +4,7 @@ const path = require('path');
 require('dotenv').config();
 
 const app = express();
+app.set('view engine', 'ejs');
 app.use(express.json());
 
 // Routes
