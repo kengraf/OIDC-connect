@@ -55,6 +55,7 @@
             secure: false,
             maxAge: 3600000,
             sameSite: 'Strict',
+          }
           return res.json();
         }
         throw new Error('Token verification failed');
