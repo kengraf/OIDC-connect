@@ -1,22 +1,35 @@
 const express = require('express');
 const session = require('express-session');
+const { OAuth2Client } = require('google-auth-library');
 const path = require('path');
 require('dotenv').config();
 
 const app = express();
+app.use(express.json());
 
-function validateToken() { return true; }
-// Middleware
-app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  })
-);
+const CLIENT_ID = process.env.OIDC_CLIENT_ID;
+const client = new OAuth2Client(CLIENT_ID);
+
+app.post('/verify-token', async (req, res) => {
+  const { idToken } = req.body;
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const userId = payload['sub']; // Use this user ID for your app's session
+
+    // After verification, establish a session or issue a secure token
+    req.session.user = userId; // Example for session-based apps
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    res.status(401).json({ success: false, message: 'Invalid token' });
+  }
+});
 
 // Routes
 app.get('/', (req, res) => {
