@@ -20,26 +20,6 @@ app.get('/login', (req, res) => {
   res.render('login', { user: req.user });
 });
 
-app.post('/verify-token', async (req, res) => {
-  const { idToken } = req.body;
-
-  try {
-    const ticket = await client.verifyIdToken({
-      idToken,
-      audience: CLIENT_ID,
-    });
-    const payload = ticket.getPayload();
-    const userId = payload['sub']; // Use this user ID for your app's session
-
-    // After verification, establish a session or issue a secure token
-    req.session.user = userId; // Example for session-based apps
-
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Error verifying token:', error);
-    res.status(401).json({ success: false, message: 'Invalid token' });
-  }
-});
 
 app.post('/callback',  (req, res ) => {
   console.log('callback post');
