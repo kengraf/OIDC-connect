@@ -35,6 +35,7 @@ app.get('/login', (req, res) => {
 
 app.post('/verify-token', async (req, res) => {
   const { idToken } = req.body;
+console.log( req.body );
   
   try {
     const ticket = await client.verifyIdToken({
@@ -47,8 +48,6 @@ app.post('/verify-token', async (req, res) => {
 
     // After verification, establish a session or issue a secure token
     req.session.user = userId; // Example for session-based apps
-console.log( req.session );
-console.log( res.session );
     
     res.json({ success: true });
   } catch (error) {
