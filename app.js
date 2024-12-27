@@ -44,11 +44,10 @@ app.post('/verify-token', async (req, res) => {
       audience: CLIENT_ID,
     });
     const payload = ticket.getPayload();
-    console.log(payload);
     const userId = payload['sub']; // Use this user ID for your app's session
 
     // After verification, establish a session or issue a secure token
-    req.session.user = userId; // Example for session-based apps
+    req.session.user = { username: userId }; // Example for session-based apps
     session_secret = userId;
     session_user = payload['email'];
     
@@ -77,6 +76,7 @@ function verifyToken(req, res, next) {
     next();
   });
 }
+
 function validateSession(req, res, next) {
     console.log('Session:', req.session);
   if (req.session && req.session.user) {
