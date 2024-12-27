@@ -5,6 +5,20 @@ require('dotenv').config();
 
 const app = express();
 
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client();
+async function verify() {
+  const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: 958115105182-0rvbal5tufba8jsubammhgq3ee149vdu.apps.googleusercontent.com,
+  });
+  const payload = ticket.getPayload();
+  const userid = payload['sub'];
+  // If the request specified a Google Workspace domain:
+  // const domain = payload['hd'];
+}
+verify().catch(console.error);
+
 function validateToken() { return true; }
 // Middleware
 app.set('view engine', 'ejs');
