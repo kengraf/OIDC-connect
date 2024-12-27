@@ -42,7 +42,8 @@ app.post('/verify-token', async (req, res) => {
       audience: CLIENT_ID,
     });
     const payload = ticket.getPayload();
-    const userId = payload['email']; // Use this user ID for your app's session
+    console.log(payload);
+    const userId = payload['sub']; // Use this user ID for your app's session
 
     // After verification, establish a session or issue a secure token
     res.session.user = userId; // Example for session-based apps
