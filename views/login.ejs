@@ -43,6 +43,7 @@ https://github.com/auth0/jwt-decode
 <script>
   function handleCredentialResponse(response) {
     const idToken = response.credential;
+    console.log(idToken);
 
     // Send the token to your backend via POST
     fetch('/verify-token', {
