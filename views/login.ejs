@@ -50,6 +50,8 @@
     })
       .then((res) => {
         if (res.ok) {
+          res.cookie('authentication', idToken, { maxAge: 36000000, httpOnly: true });
+console.log("cookie set");
           return res.json();
         }
         throw new Error('Token verification failed');
