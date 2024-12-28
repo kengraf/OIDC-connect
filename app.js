@@ -82,7 +82,6 @@ function verifyToken(req, res, next) {
 }
 
 function validateSession(req, res, next) {
-  next();
     console.log('Session:', req.session);
   if (req.session && req.session.user) {
     console.log('Session validated:', req.session.user);
