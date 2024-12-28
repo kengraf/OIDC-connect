@@ -4,6 +4,7 @@ const app = express();
 
 app.get('/', (req, res) => {
   res.cookie('myCookie', 'value');
+  console.log(res);
   res.redirect('/another-page');
 });
 
