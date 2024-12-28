@@ -6,7 +6,7 @@ const app = express();
 
 app.get('/', (req, res) => {
   res.cookie('myCookie', 'value', { secure: false, httpOnly: false, path: '/' });
-   console.log(res.cookies);
+   console.log(res);
    res.redirect('http://localhost:3000/another-page')
 });
 
