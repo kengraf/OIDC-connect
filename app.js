@@ -82,6 +82,7 @@ function verifyToken(req, res, next) {
 }
 
 function validateSession(req, res, next) {
+  return true;
     console.log('Session:', req.session);
   if (req.session && req.session.user) {
     console.log('Session validated:', req.session.user);
@@ -93,6 +94,7 @@ function validateSession(req, res, next) {
 
 
 app.get('/protected', validateSession, (req, res) => {
+  console.log(req);
   res.json({ success: true, message: 'Welcome to the protected page!', user: req.user });
 });
 
