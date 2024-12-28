@@ -5,12 +5,12 @@ const PORT = 3000;
 // With middleware
 app.use('/', function (req, res, next) {
     res.cookie('title', 'GeeksforGeeks');
-    res.send("Cookie Set");
+    res.send(res.cookie);
     next();
 })
 
 app.get('/', function (req, res) {
-    console.log('Cookie SET');
+    console.log(req);
 });
 
 
