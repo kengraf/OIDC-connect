@@ -54,10 +54,6 @@
         }
         throw new Error('Token verification failed');
       })
-      .then((data) => {
-        // Redirect to the protected page
-        window.location.href = '/protected';
-      })
       .catch((error) => {
         console.error('Error verifying token:', error);
       });
