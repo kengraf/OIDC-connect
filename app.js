@@ -92,8 +92,11 @@ function validateSession(req, res, next) {
   }
 }
 
+app.get('/protected', (req, res) => {
+    res.redirect('/');
+});
 
-app.get('/protected', validateSession, (req, res) => {
+app.get('/protected2', validateSession, (req, res) => {
   console.log(req);
   res.json({ success: true, message: 'Welcome to the protected page!', user: req.user });
 });
