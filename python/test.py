@@ -88,7 +88,7 @@ class FileServerHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({"error": "Invalid JWT"}).encode('utf-8'))
 
 # Start the server
-def run(server_class=HTTPServer, handler_class=FileServerHandler, port=8000):
+def run(server_class=HTTPServer, handler_class=FileServerHandler, port=80):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print(f"Serving files in the current directory and handling JWTs on port {port}")
