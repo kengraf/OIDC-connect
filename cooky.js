@@ -5,7 +5,7 @@ const app = express();
 
 
 app.get('/', (req, res) => {
-  res.cookie('myCookie', 'value');
+  res.cookie('myCookie', 'value', { secure: false, httpOnly: true, path: '/' });
   res.redirect('/another-page');
 });
 
