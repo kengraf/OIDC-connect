@@ -50,7 +50,7 @@
     })
       .then((res) => {
         if (res.ok) {
-          return res.json();
+          return res.redirect('/dashboard');
         }
         throw new Error('Token verification failed');
       })
