@@ -13,24 +13,7 @@
       height: 100vh;
       font-family: Arial, sans-serif;
     }
-    .google-btn {
-      background-color: #4285F4;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .google-btn img {
-      height: 20px;
-    }
-    .google-btn:hover {
-      background-color: #357ae8;
-    }
+
   </style>
 </head>
 <body>
@@ -40,7 +23,7 @@
   function handleCredentialResponse(response) {
     const idToken = response.credential;
 
-    // Send the token to your backend via POST
+    // Send the token to your backend via POST ---- GET
     fetch('/verify-token', {
       method: 'POST',
       headers: {
@@ -63,7 +46,7 @@
   window.onload = function () {
     google.accounts.id.initialize({
       client_id: '958115105182-0rvbal5tufba8jsubammhgq3ee149vdu.apps.googleusercontent.com',
-      login_uri: '/callback',
+      callback: handleCredentialResponse,
     });
     google.accounts.id.renderButton(
       document.getElementById('buttonDiv'),
