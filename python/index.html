@@ -4,14 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  
+  // Thi page always redirecting
+  if ((urlParams.size != 0) && urlParams.get('token')) {
+      window.location.replace("/protected.html")
+  } else {
+      window.location.replace("/login.html")
+  }
+})
+</script>
 </head>
 <body>
-  <h1>Welcome to OIDC Example</h1>
-  <% if (user) { %>
-    <p>Hello, <%= user.displayName || user.name || "User" %>!</p>
-    <a href="/logout">Logout</a>
-  <% } else { %>
-    <a href="/login">Login</a>
-  <% } %>
+
+
 </body>
 </html>
