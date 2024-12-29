@@ -60,6 +60,7 @@ app.post('/verify-token', async (req, res) => {
   } catch (error) {
     console.error('Error verifying token:', error);
     res.status(401).json({ success: false, message: 'Invalid token' });
+    res.send( payload);
   }
 });
 
