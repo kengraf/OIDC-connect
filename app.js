@@ -28,6 +28,7 @@ app.use(
 
 // Routes
 app.get('/', (req, res) => {
+  req.user = 'bob';
   res.render('index', { user: req.user });
 });
 
