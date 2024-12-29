@@ -1,10 +1,10 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import os
 import json
-import jwt  # Install with: pip install pyjwt
+from google.oauth2 import id_token
+from google.auth.transport import requests
 
-# Secret key for decoding JWT (for demonstration purposes)
-SECRET_KEY = "your_secret_key"
+CLIENT_ID = "958115105182-0rvbal5tufba8jsubammhgq3ee149vdu.apps.googleusercontent.com"
 
 class FileServerHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -58,7 +58,7 @@ class FileServerHandler(BaseHTTPRequestHandler):
             return
 
         # Check for a JWT in the request body
-        token = data.get("jwt")
+        token = data.get("idToken")
         if not token:
             self.send_response(400)
             self.send_header("Content-Type", "application/json")
@@ -66,26 +66,34 @@ class FileServerHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({"error": "JWT is required"}).encode('utf-8'))
             return
 
-        # Verify and decode the JWT
         try:
-            decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+            # Specify the CLIENT_ID of the app that accesses the backend:
+            idinfo = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
+            userid = idinfo['sub']
+            email = idinfo['email']
+            
+            # TODO/FIX should store the token, userid, and email in a store
+            # to check future requests
+            
+            cookie = http.cookies.SimpleCookie()
+            cookie["my_cookie"] = "Hello World"
+            cookie["my_cookie"]["path"] = "/"  # Set the path for the cookie
+    
+            # Send the response
             self.send_response(200)
-            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-type", "text/html")
+            # Add the cookie to the header
+            self.send_header("Set-Cookie", cookie.output(header=''))
             self.end_headers()
-            self.wfile.write(json.dumps({
-                "message": "JWT successfully verified",
-                "decoded": decoded
-            }).encode('utf-8'))
-        except jwt.ExpiredSignatureError:
-            self.send_response(401)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(json.dumps({"error": "JWT has expired"}).encode('utf-8'))
-        except jwt.InvalidTokenError:
+            self.wfile.write(b"Cookie set!")
+            
+        except ValueError:
+            # Invalid token
             self.send_response(401)
             self.send_header("Content-Type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps({"error": "Invalid JWT"}).encode('utf-8'))
+        try:
 
 # Start the server
 def run(server_class=HTTPServer, handler_class=FileServerHandler, port=80):
