@@ -56,7 +56,7 @@ app.post('/verify-token', async (req, res) => {
       }
     });    
 //    res.json({ success: true });
-      res.render('/dashboard', { token: JSON.stringify(payload) });
+      res.render('dashboard', { token: JSON.stringify(payload) });
   } catch (error) {
     console.error('Error verifying token:', error);
     res.status(401).json({ success: false, message: 'Invalid token' });
