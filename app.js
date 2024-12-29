@@ -28,7 +28,6 @@ app.use(
 
 // Routes
 app.get('/', (req, res) => {
-  req.user = 'bob';
   res.render('index', { user: req.user });
 });
 
@@ -57,10 +56,10 @@ app.post('/verify-token', async (req, res) => {
       }
     });    
     res.json({ success: true });
+    res.send( payload);
   } catch (error) {
     console.error('Error verifying token:', error);
     res.status(401).json({ success: false, message: 'Invalid token' });
-    res.send( payload);
   }
 });
 
