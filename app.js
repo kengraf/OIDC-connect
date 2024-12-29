@@ -35,6 +35,10 @@ app.get('/login', (req, res) => {
   res.render('login', { user: req.user });
 });
 
+app.get('/dashboard', (req, res) => {
+  res.render('dashboard', { user: req });
+});
+
 app.post('/verify-token', async (req, res) => {
   const { idToken } = req.body;
   
