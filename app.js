@@ -55,8 +55,7 @@ app.post('/verify-token', async (req, res) => {
         return res.status(500).json({ message: 'Session save failed' });
       }
     });    
-//    res.json({ success: true });
-      res.render('dashboard', { token: JSON.stringify(payload) });
+    res.json({ success: true });
   } catch (error) {
     console.error('Error verifying token:', error);
     res.status(401).json({ success: false, message: 'Invalid token' });
