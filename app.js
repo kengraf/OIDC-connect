@@ -56,7 +56,7 @@ app.post('/verify-token', async (req, res) => {
       }
     });    
 //    res.json({ success: true });
-    res.send(payload);
+      res.render('/dashboard', { token: JSON.stringify(payload) });
   } catch (error) {
     console.error('Error verifying token:', error);
     res.status(401).json({ success: false, message: 'Invalid token' });
@@ -91,10 +91,6 @@ function validateSession(req, res, next) {
     res.status(401).json({ message: 'Unauthorized: Please log in' });
   }
 }
-
-app.get('/protected', (req, res) => {
-    res.redirect('/');
-});
 
 app.get('/protected2', validateSession, (req, res) => {
   console.log(req);
