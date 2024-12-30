@@ -24,7 +24,7 @@
     const idToken = response.credential;
 
     // Send the token to your backend via POST ---- GET
-    fetch('/verify-token:80', {
+    fetch(':80/verify-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
