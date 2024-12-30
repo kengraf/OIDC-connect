@@ -35,7 +35,7 @@ app.get('/login', (req, res) => {
   res.render('login', { user: req.user });
 });
 
-app.get('/dashboard', (req, res) => {
+app.get('/dashboard/:token', (req, res) => {
   res.render('dashboard', { token: JSON.stringify(req) });
 });
 
