@@ -9,15 +9,14 @@ CLIENT_ID = "958115105182-0rvbal5tufba8jsubammhgq3ee149vdu.apps.googleuserconten
 class FileServerHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
-      '''-------lambda ------------
-            cookie_header = self.headers.get("Cookie")
-            if cookie_header:
-                cookies = dict(item.split("=") for item in cookie_header.split("; "))
-                user_cookie = cookies.get("userid", "No userid cookie found")
-            else:
-                user_cookie = "No cookie found"
-        '''
-              
+'''-------lambda ------------
+    cookie_header = self.headers.get("Cookie")
+    if cookie_header:
+        cookies = dict(item.split("=") for item in cookie_header.split("; "))
+        user_cookie = cookies.get("userid", "No userid cookie found")
+    else:
+        user_cookie = "No cookie found"
+'''
         # Get content length and read the request body
         content_length = int(self.headers.get('Content-Length', 0))
         body = self.rfile.read(content_length).decode('utf-8')
