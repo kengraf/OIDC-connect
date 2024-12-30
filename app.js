@@ -64,7 +64,7 @@ app.post('/verify-token', async (req, res) => {
   }
 });
 
-app.get('/callback', (req, res) => {}
+app.get('/callback', (req, res) => {});
         
 app.get('/error', (req, res) => {
   const errorMessage = req.session.messages || 'Unknown error';
