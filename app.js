@@ -36,7 +36,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/dashboard', (req, res) => {
-  res.render('dashboard', { user: req });
+  res.render('dashboard', { token: req });
 });
 
 app.post('/verify-token', async (req, res) => {
