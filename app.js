@@ -35,8 +35,8 @@ app.get('/login', (req, res) => {
   res.render('login', { user: req.user });
 });
 
-app.get('/dashboard/:token', (req, res) => {
-  res.render('dashboard', { token: req.params.token });
+app.get('/dashboard', (req, res) => {
+  res.render('dashboard', { user: req.user });
 });
 
 app.post('/verify-token', async (req, res) => {
@@ -48,19 +48,15 @@ app.post('/verify-token', async (req, res) => {
       audience: CLIENT_ID,
     });
     const payload = ticket.getPayload();
-    const userId = payload['sub']; // Use this user ID for your app's session
 
-    // After verification, establish a session or issue a secure token
-    req.session.user = { username: userId }; // Example for session-based apps
-    session_secret = userId;
-    session_user = payload['email'];
-    req.session.save((err) => {               // Ensure session is saved
-      if (err) {
-        return res.status(500).json({ message: 'Session save failed' });
-      }
-    });    
+    // TODO: Fulee deployment would need real session management
+    res.cookie('userId', payload['sub'], {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, 
+    });
+
    //  res.json({ success: true });
-    res.render('dashboard', { token: req.params.token });
+    res.redirect('/dashboard');
   } catch (error) {
     console.error('Error verifying token:', error);
     res.status(401).json({ success: false, message: 'Invalid token' });
@@ -85,21 +81,6 @@ function verifyToken(req, res, next) {
     next();
   });
 }
-
-function validateSession(req, res, next) {
-    console.log('Session:', req.session);
-  if (req.session && req.session.user) {
-    console.log('Session validated:', req.session.user);
-    next(); // User is authenticated; proceed to the next middleware or route
-  } else {
-    res.status(401).json({ message: 'Unauthorized: Please log in' });
-  }
-}
-
-app.get('/protected2', validateSession, (req, res) => {
-  console.log(req);
-  res.json({ success: true, message: 'Welcome to the protected page!', user: req.user });
-});
 
 app.get('/error', (req, res) => {
   const errorMessage = req.session.messages || 'Unknown error';
