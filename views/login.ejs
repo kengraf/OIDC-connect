@@ -48,6 +48,15 @@
       },
       body: JSON.stringify({ idToken }),
     })
+      .then((res) => {
+        if (res.ok) {
+          window.location.href = '/dashboard\?token='+idToken;
+        }
+        throw new Error('Token verification failed');
+      })
+      .catch((error) => {
+        console.error('Error verifying token:', error);
+      });
   }
 
   // Render the Google Sign-In button
