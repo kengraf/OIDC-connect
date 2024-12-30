@@ -59,7 +59,6 @@ class FileServerHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps({"error": "Invalid JWT"}).encode('utf-8'))
-        try:
 
 # Start the server
 def run(server_class=HTTPServer, handler_class=FileServerHandler, port=80):
