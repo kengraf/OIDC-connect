@@ -50,7 +50,7 @@
     })
       .then((res) => {
         if (res.ok) {
-          window.location.href = '/dashboard&token='+idToken;
+          window.location.href = '/dashboard?token='+idToken;
         }
         throw new Error('Token verification failed');
       })
