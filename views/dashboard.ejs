@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
+<script>
+const element = document.getElementById("body");
+const cookie_text = `<p>Cookie: ${document.cookie}</p>`; 
+element.innerHTML += cookie_text;
+</script>
 </head>
-<body>
+
+<body id="body">
   <h1>Dashboard</h1>
-  <% if (userId) { %>
-    <p><%= userId %>!</p>
-  <% } else { %>
-    <p>no data</p>
-  <% } %>
 </body>
 </html>
