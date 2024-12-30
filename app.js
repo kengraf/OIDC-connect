@@ -39,6 +39,7 @@ app.get('/dashboard', (req, res) => {
   res.render('dashboard', { user: req.user });
 });
 
+// The GIS callback invokes this route after successful login
 app.post('/verify-token', async (req, res) => {
   const { idToken } = req.body;
   
@@ -62,25 +63,6 @@ app.post('/verify-token', async (req, res) => {
     res.status(401).json({ success: false, message: 'Invalid token' });
   }
 });
-
-function verifyToken(req, res, next) {
-  console.log( "verifytoken" );
-  console.log( req.session );
-  const token = req.session.user;
-  console.log( token);
-  
-  if (!token) {
-    return res.status(401).json({ success: false, message: 'Token is required' });
-  }
-
-  jwt.verify(token, 'your-secret-key', (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ success: false, message: 'Invalid or expired token' });
-    }
-    req.user = decoded; // Attach decoded token data to the request
-    next();
-  });
-}
 
 app.get('/error', (req, res) => {
   const errorMessage = req.session.messages || 'Unknown error';
