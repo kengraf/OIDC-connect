@@ -36,7 +36,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/dashboard/:token', (req, res) => {
-  res.render('dashboard', { token: JSON.stringify(req) });
+  res.render('dashboard', { token: req.params.token });
 });
 
 app.post('/verify-token', async (req, res) => {
@@ -59,7 +59,8 @@ app.post('/verify-token', async (req, res) => {
         return res.status(500).json({ message: 'Session save failed' });
       }
     });    
-    res.json({ success: true });
+   //  res.json({ success: true });
+    res.render('dashboard', { token: req.params.token });
   } catch (error) {
     console.error('Error verifying token:', error);
     res.status(401).json({ success: false, message: 'Invalid token' });
