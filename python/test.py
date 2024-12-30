@@ -51,14 +51,7 @@ class FileServerHandler(BaseHTTPRequestHandler):
             # Add the cookie to the header
             self.send_header("Set-Cookie", "userid="+userid+"; max-age=3600; path=/" )
             self.end_headers()
-            self.wfile.write(b"Cookie set!")
-''' ----------lambda -----------------
-return {
-"statusCode": 200,
-"body": userResponse,
-"headers": {"Content-Type": "text/html"}
-}
-'''
+            self.wfile.write(b"Validated!")
 
         except ValueError:
             # Invalid token
