@@ -9,9 +9,9 @@
   <h1>Dashboard</h1>
 
 <script>
-  function displayCookiesAsHTML() {
+function displayCookiesAsHTML() {
   const cookies = document.cookie.split(';');
-  let html = '<table><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody>';
+  let html = '<table><thead><tr><th>Cookie</th><th>Value</th></tr></thead><tbody>';
 
   for (let i = 0; i < cookies.length; i++) {
     const cookie = cookies[i].trim().split('=');
@@ -20,11 +20,22 @@
     html += `<tr><td>${name}</td><td>${value}</td></tr>`;
   }
 
+  html += '</tbody></table><br/>';
+  document.body.innerHTML += html;
+}
+displayCookiesAsHTML();
+
+function displayParametersAsHTML() {
+  const urlParams = new URLSearchParams( window.location.search);
+  html = '<table><thead><tr><th>Parameter</th><th>Value</th></tr></thead><tbody>';
+
+  urlParams.forEach((value, key) => {
+      html += `<tr><td>${key}</td><td>${value}</td></tr>`;
+  });
   html += '</tbody></table>';
   document.body.innerHTML += html;
 }
-
-displayCookiesAsHTML();
+displayParametersAsHTML();
 </script>
 </body>
 </html>
