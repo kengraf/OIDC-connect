@@ -8,6 +8,35 @@ CLIENT_ID = "958115105182-0rvbal5tufba8jsubammhgq3ee149vdu.apps.googleuserconten
 
 class FileServerHandler(BaseHTTPRequestHandler):
 
+    def do_GET(self):
+        # Remove leading slash and decode the requested path
+        file_path = self.path.lstrip("/").split("?")[0]
+
+        # Default to "index.html" if the path is empty
+        if file_path == "":
+            file_path = "index.html"
+
+        # Check if the requested file is an HTML file
+        if os.path.isfile(file_path) and file_path.endswith(".html"):
+            try:
+                # Open and read the HTML file
+                with open(file_path, "r", encoding="utf-8") as file:
+                    content = file.read()
+
+                # Send HTTP response headers
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+
+                # Write the HTML content to the response
+                self.wfile.write(content.encode("utf-8"))
+            except Exception as e:
+                # Handle file reading errors
+                self.send_error(500, f"Internal Server Error: {e}")
+        else:
+            # Respond with a 404 if the file is not found or is not HTML
+            self.send_error(404, "File Not Found")
+            
     def do_POST(self):
         cookie_header = self.headers.get("Cookie")
         if cookie_header:
@@ -42,16 +71,16 @@ class FileServerHandler(BaseHTTPRequestHandler):
         try:
             # Specify the CLIENT_ID of the app that accesses the backend:
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
-            userid = idinfo['sub']
+            sub = idinfo['sub']
             email = idinfo['email']
             
             # Send the response
             self.send_response(200)
-            self.send_header("Content-type", "text/html")
+            self.send_header("Content-type", "application/json")
             # Add the cookie to the header
-            self.send_header("Set-Cookie", "userid="+userid+"; max-age=3600; path=/" )
+            self.send_header("Set-Cookie", "sub="+sub+"; HttpOnly; Secure=false; SameSite=Lax; Path=/" )
             self.end_headers()
-            self.wfile.write(b"Validated!")
+            self.wfile.write(json.dumps(idinfo).encode('utf-8'))
 
         except ValueError:
             # Invalid token
