@@ -24,20 +24,25 @@
     const idToken = response.credential;
 
     // Send the token to your backend via POST ---- GET
-    fetch('localhost:80/verify-token', {
+    fetch('/verify-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ idToken }),
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Token verification failed: ${response.status}`);
         }
-        throw new Error('Token verification failed');
+        return response.json();
       })
-      .catch((error) => {
+      .then(data => {
+        console.log('Data fetched:', data);
+        const sub = data["sub"]
+        window.location.href = `/dashboard.html?${sub}`;
+      })
+      .catch(error => {
         console.error('Error verifying token:', error);
       });
   }
